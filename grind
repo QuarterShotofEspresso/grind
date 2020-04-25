@@ -19,7 +19,7 @@ function lock () {
 function unlock () {
 	basefilename=$(echo ${1} | awk -F. '{print $1}')
 	gpg --output ${basefilename}.tgz --decrypt ${basefilename}.tgz.enc
-	tar -xzf ${basefilename}.tgz
+	tar -xzf ${basefilename}.tgz -C $localarchive
 	rm -rf ${basefilename}.tgz
 }
 
@@ -27,12 +27,13 @@ function push () {
 	lock $1
 	scp ${1}.tgz.enc $remotearchive
 	rm ${1}.tgz.enc
-	#(grep ) && $(echo "${1}.tgz.enc" >> $grindspath)
+	((grep "$sample_dir" $grindspath) && (echo repo exists... updating)) || (echo "${sample_dir}.tgz.enc" >> $grindspath)
 }
 
 function pull () {
 	scp ${remotearchive}${1} $localarchive
 	unlock ${localarchive}${1}
+	rm ${localarchive}${1}
 }
 
 #####################################
