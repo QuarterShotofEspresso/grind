@@ -1,0 +1,55 @@
+#!/bin/bash
+
+#####################################
+# constant terms
+
+remotearchive=rband003@hammer.cs.ucr.edu:~/Projects/
+localarchive=~/Projects/
+grindspath=~/Desktop/.grinds
+
+#####################################
+# Function definitions
+
+function lock () {
+	tar -czf ${1}.tgz $1
+	gpg --output ${1}.tgz.enc --symmetric --cipher-algo AES256 ${1}.tgz
+	rm -rf ${1}.tgz
+}
+
+function unlock () {
+	basefilename=$(echo ${1} | awk -F. '{print $1}')
+	gpg --output ${basefilename}.tgz --decrypt ${basefilename}.tgz.enc
+	tar -xzf ${basefilename}.tgz
+	rm -rf ${basefilename}.tgz
+}
+
+function push () {
+	lock $1
+	scp ${1}.tgz.enc $remotearchive
+	rm ${1}.tgz.enc
+	#(grep ) && $(echo "${1}.tgz.enc" >> $grindspath)
+}
+
+function pull () {
+	scp ${remotearchive}${1} $localarchive
+	unlock $1
+}
+
+#####################################
+# main code
+
+if [[ $1 == "lock" ]]; then
+	lock $2
+elif [[ $1 == "unlock" ]]; then
+	unlock $2
+elif [[ $1 == "push" ]]; then
+	push $2
+elif [[ $1 == "pull" ]]; then
+	if [[ $# == 2 ]]; then
+		cat $grindspath
+	else
+		pull $2
+	fi
+else
+	echo "Incorrect usage of grind"
+fi
