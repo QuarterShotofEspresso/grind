@@ -3,9 +3,9 @@
 #####################################
 # constant terms
 
-remotearchive=rband003@hammer.cs.ucr.edu:~/Projects/
+remotearchive=rband003@hammer.cs.ucr.edu:/home/csmajs/rband003/Projects/
 localarchive=~/Projects/
-grindspath=~/Desktop/.grinds
+grindspath=~/Projects/thegrind/.grinds
 
 #####################################
 # Function definitions
@@ -32,7 +32,7 @@ function push () {
 
 function pull () {
 	scp ${remotearchive}${1} $localarchive
-	unlock $1
+	unlock ${localarchive}${1}
 }
 
 #####################################
@@ -45,7 +45,7 @@ elif [[ $1 == "unlock" ]]; then
 elif [[ $1 == "push" ]]; then
 	push $2
 elif [[ $1 == "pull" ]]; then
-	if [[ $# == 2 ]]; then
+	if [[ $# -ne 2 ]]; then
 		cat $grindspath
 	else
 		pull $2
