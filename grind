@@ -3,9 +3,9 @@
 #####################################
 # constant terms
 
-remotearchive=rband003@hammer.cs.ucr.edu:/home/csmajs/rband003/Projects/
-localarchive=~/Projects/
-grindspath=~/Projects/thegrind/.grinds
+remotearchive=<user>@<remote_host>:<file_path>
+localarchive=<local_archive_path>
+grindspath=<path_to_.grinds_file>
 
 #####################################
 # Function definitions
