@@ -1,4 +1,4 @@
-# Grinder
+# Grind
 > Author: Ratnodeep Bandyopadhyay ([@QuarterShotofEspresso](https://github.com/QuarterShotofEspresso))
 
 Automated a task which has been done a couple times in the past week. Grind is intended to ease a mundane but neccesary task of teeny project management. It's as easy to use as it was to build. A secure, remote repository for any project.
